@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:25:33 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/13 15:44:45 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/14 21:04:18 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,23 @@ void	check_inp(int ac, char **av, t_philos *philo)
 
 void	eating(t_philos *philo)
 {
+	pthread_mutex_lock(&philo->eating);
 	printf("i ate\n");
+	pthread_mutex_unlock(&philo->eating);
 }
 
 void	sleeping(t_philos *philo)
 {
+	pthread_mutex_lock(&philo->sleeping);
 	printf("i slept\n");
+	pthread_mutex_unlock(&philo->sleeping);
 }
 
 void	thinking(t_philos *philo)
 {
+	pthread_mutex_lock(&philo->thinking);
 	printf("i thought\n");
+	pthread_mutex_unlock(&philo->thinking);
 }
 
 void	*routine(void *philo)
@@ -81,7 +87,13 @@ int	main(int ac, char **av)
 {
 	t_philos philo;
 
+	pthread_mutex_init(&philo.eating, NULL);
+	pthread_mutex_init(&philo.sleeping, NULL);
+	pthread_mutex_init(&philo.thinking, NULL);
 	check_inp(ac, av, &philo);
 	create_threads(&philo);
+	pthread_mutex_destroy(&philo.eating);
+	pthread_mutex_destroy(&philo.sleeping);
+	pthread_mutex_destroy(&philo.thinking);
 	joiner(&philo);
 }
