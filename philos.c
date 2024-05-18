@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:25:33 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/17 20:23:53 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:10:31 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+typedef	struct	s_shared	t_shared;
+
 typedef	struct s_philos
 {
+	int	ID;
 	pthread_t	philo;
+	t_shared	*shared;
 }	t_philos;
 
-typedef	struct	t_shared
+typedef	struct	s_shared
 {
 	int	philos;
-	int	ID;
 	t_philos	**philo;
 	pthread_mutex_t ids;
 	pthread_mutex_t eating;
@@ -40,7 +43,11 @@ void	check_inp(int ac, char **av, t_shared *shared)
 	shared->philo[shared->philos] = NULL;
 	int i = -1;
 	while (++i < shared->philos)
+	{
 		shared->philo[i] = malloc(sizeof(t_philos));
+		shared->philo[i]->ID = i + 1;
+		shared->philo[i]->shared = shared;
+	}
 	// {
 	// 	shared->philo[i]->ID = i + 1;
 	// }
@@ -49,41 +56,40 @@ void	check_inp(int ac, char **av, t_shared *shared)
 	// philo->philo = malloc(sizeof(pthread_t) * philo->philos);
 }
 
-void	eating(t_shared *shared, int id)
+void	eating(t_philos *philo)
 {
-	pthread_mutex_lock(&shared->eating);
-	printf("philo %d: i ate\n", id);
-	pthread_mutex_unlock(&shared->eating);
+	pthread_mutex_lock(&philo->shared->eating);
+	printf("philo %d: i ate\n", philo->ID); 
+	pthread_mutex_unlock(&philo->shared->eating);
 }
 
-void	sleeping(t_shared *shared, int id)
+void	sleeping(t_philos *philo)
 {
-	pthread_mutex_lock(&shared->sleeping);
-	printf("philo %d: i slept\n", id);
-	pthread_mutex_unlock(&shared->sleeping);
+	pthread_mutex_lock(&philo->shared->sleeping);
+	printf("philo %d: i slept\n", philo->ID); 
+	pthread_mutex_unlock(&philo->shared->sleeping);
 }
 
-void	thinking(t_shared *shared, int id)
+void	thinking(t_philos *philo)
 {
-	pthread_mutex_lock(&shared->thinking);
-	printf("philo %d: i thought\n", id);
-	pthread_mutex_unlock(&shared->thinking);
+	pthread_mutex_lock(&philo->shared->thinking);
+	printf("philo %d: i thought\n", philo->ID); 
+	pthread_mutex_unlock(&philo->shared->thinking);
 }
 
-void	*routine(void *shared)
+void	*routine(void *philo)
 {
-	int			i;
-	int			j = 3;
-	t_shared *tmp;
+	// int			i;
+	// t_shared *tmp;
 
-	tmp = (t_shared *)shared;
-	i = tmp->ID;
-	pthread_mutex_unlock(&(tmp->ids));
-	while (j--)
+	// tmp = (t_shared *)shared;
+	// i = tmp->ID;
+	// pthread_mutex_unlock(&(tmp->ids));
+	while (1)
 	{	
-		eating(shared, i);
-		sleeping(shared, i);
-		thinking(shared, i);
+		eating(philo);
+		sleeping(philo);
+		thinking(philo);
 	}
 	return (NULL);
 }
@@ -93,9 +99,9 @@ void	create_threads(t_shared	*shared)
 	int i = -1;
 	while (++i < shared->philos)
 	{
-		pthread_mutex_lock(&shared->ids);
-		shared->ID = i + 1;
-		pthread_create(&(shared->philo[i]->philo), NULL, routine, (void *)shared);
+		// pthread_mutex_lock(&shared->ids);
+		// shared->ID = i + 1;
+		pthread_create(&(shared->philo[i]->philo), NULL, routine, (void *)shared->philo[i]);
 	}
 }
 
