@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:25:33 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/18 15:10:31 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:14:28 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ void	check_inp(int ac, char **av, t_shared *shared)
 		shared->philo[i]->ID = i + 1;
 		shared->philo[i]->shared = shared;
 	}
-	// {
-	// 	shared->philo[i]->ID = i + 1;
-	// }
-	// while (++i < philo->philos)
-	// 	philo->ID[i] = i + 1;
-	// philo->philo = malloc(sizeof(pthread_t) * philo->philos);
 }
 
 void	eating(t_philos *philo)
@@ -79,12 +73,6 @@ void	thinking(t_philos *philo)
 
 void	*routine(void *philo)
 {
-	// int			i;
-	// t_shared *tmp;
-
-	// tmp = (t_shared *)shared;
-	// i = tmp->ID;
-	// pthread_mutex_unlock(&(tmp->ids));
 	while (1)
 	{	
 		eating(philo);
@@ -98,11 +86,7 @@ void	create_threads(t_shared	*shared)
 {
 	int i = -1;
 	while (++i < shared->philos)
-	{
-		// pthread_mutex_lock(&shared->ids);
-		// shared->ID = i + 1;
 		pthread_create(&(shared->philo[i]->philo), NULL, routine, (void *)shared->philo[i]);
-	}
 }
 
 void	joiner(t_shared	*shared)
@@ -121,12 +105,6 @@ int	main(int ac, char **av)
 	pthread_mutex_init(&shared.sleeping, NULL);
 	pthread_mutex_init(&shared.thinking, NULL);
 	check_inp(ac, av, &shared);
-	// int i = 0;
-	// while (i < shared.philos)
-	// {
-	// 	printf("%d\n", shared.philo[i]->ID);
-	// 	i++;
-	// }
 	create_threads(&shared);
 	pthread_mutex_destroy(&shared.eating);
 	pthread_mutex_destroy(&shared.sleeping);
