@@ -6,13 +6,13 @@
 #    By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/18 18:45:07 by tarekkkk          #+#    #+#              #
-#    Updated: 2024/05/19 14:22:31 by tarekkkk         ###   ########.fr        #
+#    Updated: 2024/05/20 19:04:11 by tarekkkk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = philos.c	parsing.c routine.c time.c
+SRCS = philos.c	parsing.c routine.c time.c forks.c 
 
 CC = cc
 

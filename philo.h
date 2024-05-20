@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:33:10 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/19 19:47:49 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:31:19 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,13 @@ typedef	struct s_philos
 	int				rf;
 	int				lf;
 	int				state;
-	pthread_mutex_t	fork;
 	pthread_t		philo;
 	t_shared		*shared;
 	size_t			last_meal;
+	pthread_mutex_t	lfork;
+	pthread_mutex_t	rfork;
+	pthread_mutex_t	m_state;
+	pthread_mutex_t	available;
 }	t_philos;
 
 typedef	struct	s_shared
@@ -44,6 +47,7 @@ typedef	struct	s_shared
 	size_t			time_to_sleep;
 	size_t			start;
 	int				meals;
+	int				died;
 	pthread_mutex_t	print;
 }	t_shared;
 
@@ -56,6 +60,8 @@ void	create_threads(t_shared	*shared);
 void	joiner(t_shared	*shared);
 void	check_inp(int ac, char **av, t_shared *shared);
 size_t	get_current_time(void);
-int	death(t_philos *philo);
+int		death(t_philos *philo);
+int		take_forks(t_philos	*philo);
+void	drop_forks(t_philos	*philo);
 
 #endif

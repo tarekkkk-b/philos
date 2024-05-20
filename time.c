@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:38:43 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/19 14:25:25 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:43:53 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	death(t_philos *philo)
 	{
 		printf("\x1b[31m[%lu] philo %d: died\n", 
 			(get_current_time() - philo->shared->start), philo->ID);
-		return (0);
+		philo->shared->died = 1;
+		exit(1);
 	}
 	return (1);
 }
@@ -41,7 +42,7 @@ int	ft_usleep(size_t milliseconds, t_philos *philo)
 	{
 		pthread_mutex_lock(&philo->shared->print);
 		if (!death(philo))
-			exit (1);
+			return (0);
 		pthread_mutex_unlock(&philo->shared->print);
 		usleep(100);
 	}

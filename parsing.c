@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:40:49 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/19 19:48:01 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:31:12 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	check_inp(int ac, char **av, t_shared *shared)
 		shared->meals = atoi(av[5]);
 	shared->philo = malloc(sizeof(t_philos *) * (shared->philos + 1));
 	shared->philo[shared->philos] = NULL;
+	shared->died = 0;
 	int i = -1;
 	while (++i < shared->philos)
 	{
@@ -36,7 +37,10 @@ void	check_inp(int ac, char **av, t_shared *shared)
 		shared->philo[i]->state = 0;
 		shared->philo[i]->avail = 1;
 		shared->philo[i]->shared = shared;
-		pthread_mutex_init(&shared->philo[i]->fork, NULL);
+		pthread_mutex_init(&shared->philo[i]->lfork, NULL);
+		pthread_mutex_init(&shared->philo[i]->rfork, NULL);
+		pthread_mutex_init(&shared->philo[i]->m_state, NULL);
+		pthread_mutex_init(&shared->philo[i]->available, NULL);
 	}
 	shared->start = get_current_time();
 }

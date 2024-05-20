@@ -6,62 +6,26 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:39:25 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/19 21:17:48 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:45:01 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	take_forks(t_philos	*philo)
-{
-	if (!philo->rf)
-		if (philo->avail)
-		{
-			philo->rf = 1;
-			philo->avail = 0;
-		}
-	if (!philo->lf)
-	{
-		if (philo->ID == 1)
-		{
-			if (philo->shared->philo[philo->shared->philos - 1]->avail)
-			{
-				philo->lf = 1;
-				philo->shared->philo[philo->shared->philos - 1]->avail = 0;
-			}
-		}
-		else
-			if (philo->shared->philo[philo->ID - 2]->avail)
-			{
-				philo->lf = 1;
-				philo->shared->philo[philo->ID - 2]->avail = 0;
-			}
-	}
-	if (philo->rf && philo->lf)
-		return (1);
-	return (0);
-}
 
-void	drop_forks(t_philos	*philo)
-{
-	if (philo->state == 1)
-	{
-		philo->rf = 0;
-		philo->lf = 0;
-		philo->avail = 1;
-		if (philo->ID == 1)
-			philo->shared->philo[philo->shared->philos - 1]->avail = 1;
-		else
-			philo->shared->philo[philo->ID - 2]->avail = 1;
-		return	;	
-	}
-	return	;
-}
 
-void	*routine(void *philo)
+void	*routine(void *p)
 {
+	t_philos	*philo;
+	
+	philo = (t_philos *)p;
 	while (death(philo))
 	{	
+		if (philo->ID % 2 == 0 && philo->meals == 0)
+		{
+			thinking(philo);
+			ft_usleep(philo->shared->time_to_eat/ 2, philo);
+		}
 		eating(philo);
 		drop_forks(philo);
 		sleeping(philo);
@@ -72,35 +36,49 @@ void	*routine(void *philo)
 
 void	eating(t_philos *philo)
 {
-	if (!take_forks(philo))
-		return	;
+	while (!take_forks(philo))
+	{
+		usleep(100);
+		pthread_mutex_lock(&philo->shared->print);	
+		death(philo);
+		pthread_mutex_unlock(&philo->shared->print);	
+	}
 	philo->last_meal = get_current_time() - philo->shared->start;
 	pthread_mutex_lock(&philo->shared->print);
-	printf("\x1b[34m[%lu] philo %d: is eating\n", 
+	printf("\x1b[34m%lu %d is eating\n", 
 		(get_current_time() - philo->shared->start), philo->ID);
 	pthread_mutex_unlock(&philo->shared->print);
 	ft_usleep(philo->shared->time_to_eat, philo);
 	philo->meals++;
+	pthread_mutex_lock(&philo->m_state);
 	philo->state = 1;
+	pthread_mutex_unlock(&philo->m_state);
 }
 
 void	sleeping(t_philos *philo)
 {
-	if (philo->state != 2)
+	if (philo->state == 1)
+	{	
+		pthread_mutex_lock(&philo->shared->print);
+		printf("\x1b[35m%lu %d is sleeping\n",
+			(get_current_time() - philo->shared->start), philo->ID);
+		pthread_mutex_unlock(&philo->shared->print);
+		ft_usleep(philo->shared->time_to_sleep, philo);
+		pthread_mutex_lock(&philo->m_state);
+		philo->state = 2;
+		pthread_mutex_unlock(&philo->m_state);
+	}
+	else
 		return	;
-	pthread_mutex_lock(&philo->shared->print);
-	printf("\x1b[35m[%lu] philo %d: is sleeping\n",
-		(get_current_time() - philo->shared->start), philo->ID);
-	pthread_mutex_unlock(&philo->shared->print);
-	ft_usleep(philo->shared->time_to_sleep, philo);
-	philo->state = 2;
 }
 
 void	thinking(t_philos *philo)
 {
 	pthread_mutex_lock(&philo->shared->print);
-	printf("\x1b[32m[%lu] philo %d: is thinking\n", 
+	printf("\x1b[32m%lu %d is thinking\n", 
 		(get_current_time() - philo->shared->start), philo->ID);
 	pthread_mutex_unlock(&philo->shared->print);
+	pthread_mutex_lock(&philo->m_state);
 	philo->state = 3;
+	pthread_mutex_unlock(&philo->m_state);
 }
