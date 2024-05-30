@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 21:02:26 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/26 15:08:02 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/30 13:21:12 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static int	right_fork(t_philo	*philo)
 	pthread_mutex_lock(&philo->shared->forks_m[philo->id - 1]);
 	if (philo->shared->forks[philo->id - 1])
 	{
+		if (checker(philo->shared->died, philo->shared->dead))
+			return ((void)pthread_mutex_unlock(&philo->shared->forks_m \
+			[philo->id - 1]), FALSE);
 		print(philo, &philo->shared->print, FORK, WHITE);
 		philo->shared->forks[philo->id - 1] = 0;
 		return ((void)pthread_mutex_unlock(&philo->shared->forks_m \
@@ -28,6 +31,9 @@ static int	right_fork(t_philo	*philo)
 
 static int	left_fork2(t_philo *philo, int id)
 {
+	if (checker(philo->shared->died, philo->shared->dead))
+		return ((void)pthread_mutex_unlock(&philo->shared->forks_m \
+		[id]), FALSE);
 	print(philo, &philo->shared->print, FORK, WHITE);
 	philo->shared->forks[id] = 0;
 	return ((void)pthread_mutex_unlock(&philo->shared->forks_m[id]), TRUE);
