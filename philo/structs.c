@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 20:39:46 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/26 14:54:19 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:29:30 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	init_mutex(t_shared *shared)
 
 	i = -1;
 	pthread_mutex_init(&shared->dead, NULL);
+	pthread_mutex_init(&shared->extra, NULL);
 	pthread_mutex_init(&shared->print, NULL);
 	pthread_mutex_init(&shared->last_meal_m, NULL);
 	pthread_mutex_init(&shared->meal_m, NULL);

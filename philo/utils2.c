@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 16:34:03 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/26 14:54:39 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:42:54 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	destroyer(t_shared *shared)
 	pthread_mutex_destroy(&shared->last_meal_m);
 	pthread_mutex_destroy(&shared->print);
 	pthread_mutex_destroy(&shared->check);
+	pthread_mutex_destroy(&shared->extra);
 	while (++i < shared->philo_count)
 		pthread_mutex_destroy(&shared->forks_m[i]);
 }

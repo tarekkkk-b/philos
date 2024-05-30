@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:57:20 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/27 20:15:26 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:46:54 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <pthread.h>
 # include <sys/time.h>
+# include <pthread.h>
 
 # define INP_ERR	"Usage: ./philo [philos] [time_to_die] [time_to_eat] \
 [time_to_sleep] **[meals_required]\n"
@@ -50,6 +50,7 @@ typedef struct s_shared
 	pthread_mutex_t	last_meal_m;
 	pthread_mutex_t	meal_m;
 	pthread_mutex_t	check;
+	pthread_mutex_t	extra;
 	pthread_mutex_t	*forks_m;
 }	t_shared;
 

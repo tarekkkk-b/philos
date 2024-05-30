@@ -5,32 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/21 13:57:28 by tarekkkk          #+#    #+#              #
-#    Updated: 2024/05/30 15:54:30 by tabadawi         ###   ########.fr        #
+#    Created: 2024/05/30 14:14:40 by tabadawi          #+#    #+#              #
+#    Updated: 2024/05/30 14:14:41 by tabadawi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
-
-SRCS = philo.c utils.c utils2.c parsing.c structs.c routine.c forks.c
-
-CC = cc
-
-CFLAGS = -Wall -Wextra -Werror
-
-OBJS = $(SRCS:.c=.o)
-
-all : $(NAME)
-
-$(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lpthread -o $(NAME)
-
-clean :
-	rm -f $(OBJS)
-
-fclean : clean
-	rm -f $(NAME)
-	
-re : fclean all
-
-.PHONY	: all clean fclean re
