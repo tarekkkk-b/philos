@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/30 16:47:56 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:07:00 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,22 @@
 
 typedef struct s_shared
 {
-	
+	int		philo_count;
+	int		meals_req;
+	size_t	start;
+	size_t	time_to_die;
+	size_t	time_to_eat;
+	size_t	time_to_sleep;
 }	t_shared;
 
 typedef struct s_philo
 {
-	
+	int			id;
+	int			rf;
+	int			lf;
+	int			meals;
+	size_t		last_meal;
+	t_shared	*shared;
 }	t_philo;
 
 #endif

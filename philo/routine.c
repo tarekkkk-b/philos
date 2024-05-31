@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 20:53:55 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/30 15:47:14 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:15:37 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	*routine(void *p)
 				return (drop_forks(philo), NULL);
 		if (!eating(philo))
 			return (drop_forks(philo), NULL);
-		drop_forks(philo);
+		if (philo->meals == philo->shared->meals_req)
+			return (drop_forks(philo), NULL);
 		if (!sleeping(philo))
 			return (drop_forks(philo), NULL);
 		if (!thinking(philo))
@@ -64,6 +65,7 @@ int	sleeping(t_philo *philo)
 		return ((void)pthread_mutex_unlock(&philo->shared->extra), FALSE);
 	pthread_mutex_unlock(&philo->shared->extra);
 	print(philo, &philo->shared->print, SLEEPING, BLACK);
+	drop_forks(philo);
 	if (!ft_usleep(philo->shared->time_to_sleep, philo))
 		return (FALSE);
 	return (TRUE);
