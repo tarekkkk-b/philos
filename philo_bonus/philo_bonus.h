@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/31 15:07:00 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:47:36 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,13 @@ typedef struct s_philo
 	size_t		last_meal;
 	t_shared	*shared;
 }	t_philo;
+
+int		is_num(int ac, char **av);
+int		check_args(int ac, char **av);
+int		ft_usleep(size_t milliseconds, t_philo *philo);
+int		ft_strlen(char *str);
+int		ft_atoi(char *str);
+void	initializer(t_shared *shared, int ac, char **av);
+size_t	get_current_time(void);
 
 #endif
