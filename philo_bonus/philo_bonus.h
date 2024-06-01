@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/31 15:47:36 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:23:36 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <semaphore.h>
+# include <fcntl.h>
 
 # define INP_ERR	"Usage: ./philo [philos] [time_to_die] [time_to_eat] \
 [time_to_sleep] **[meals_required]\n"
@@ -42,6 +44,8 @@ typedef struct s_shared
 	size_t	time_to_die;
 	size_t	time_to_eat;
 	size_t	time_to_sleep;
+	sem_t	*forks;
+	sem_t	*print;
 }	t_shared;
 
 typedef struct s_philo
@@ -50,16 +54,19 @@ typedef struct s_philo
 	int			rf;
 	int			lf;
 	int			meals;
+	pid_t		philo;
 	size_t		last_meal;
 	t_shared	*shared;
 }	t_philo;
 
 int		is_num(int ac, char **av);
 int		check_args(int ac, char **av);
-int		ft_usleep(size_t milliseconds, t_philo *philo);
 int		ft_strlen(char *str);
 int		ft_atoi(char *str);
+void	ft_usleep(size_t milliseconds);
+void	routine(t_philo *philos);
 void	initializer(t_shared *shared, int ac, char **av);
+void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
 
 #endif

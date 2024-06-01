@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:59:11 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/25 21:24:50 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/05/31 22:29:11 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	main(int ac, char **av)
 	t_philo		**philo;
 
 	if (!check_args(ac, av))
-		return (0);
+		return (-1);
 	if (!initializer(&shared, ac, av))
-		return (FALSE);
+		return (-1);
 	philo = malloc(sizeof(t_philo *) * shared.philo_count);
 	if (!philo_init(philo, &shared))
-		return (FALSE);
+		return (-1);
 	create_threads(philo);
 	joiner(philo);
 	destroyer(&shared);
