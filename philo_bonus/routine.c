@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 21:52:30 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/02 22:45:01 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@
 // 	return (1);
 // }
 
-
+void	printing(t_philo *philo, char *clr, char *str, int flag)
+{
+	sem_wait(philo->shared->print);
+	if (!philo->death)
+		printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
+	else if (flag)
+		printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
+	sem_post(philo->shared->print);
+}
 
 int	death(t_shared *shared, t_philo *philo)
 {
@@ -34,11 +42,13 @@ int	death(t_shared *shared, t_philo *philo)
 			i++;
 		}
 		// sem_wait(philo->shared->dead);
-		sem_wait(philo->shared->print);
+		// sem_wait(philo->shared->print);
 		sem_post(philo->shared->forks);
 		sem_post(philo->shared->forks);
-		printf("%s[%ld] philo %d died\n", RED, get_current_time() - philo->shared->start, philo->id);
-		sem_post(philo->shared->print);
+		printing(philo, RED, DEATH, 1);
+		// printf("%s[%ld] philo %d died\n", RED, get_current_time() - philo->shared->start, philo->id);
+		// sem_wait(philo->shared->print);
+		// sem_post(philo->shared->print);
 		// exit(4);
 		return (1);
 	}
@@ -58,9 +68,10 @@ void	eating(t_philo *philo)
 		exit(0);
 	}
 	// test(philo);
-	sem_wait(philo->shared->print);
-	printf("%s[%ld] philo %d is eating\n", BLUE, get_current_time() - philo->shared->start, philo->id);
-	sem_post(philo->shared->print);
+	// sem_wait(philo->shared->print);
+	printing(philo, BLUE, EATING, 0);
+	// printf("%s[%ld] philo %d is eating\n", BLUE, get_current_time() - philo->shared->start, philo->id);
+	// sem_post(philo->shared->print);
 	// test(philo);
 	death(philo->shared, philo);
 	if (philo->death)
@@ -85,9 +96,10 @@ void	sleeping(t_philo *philo)
 		sem_post(philo->shared->forks);
 		exit(0);
 	}
-	sem_wait(philo->shared->print);
-	printf("%s[%ld] philo %d is sleeping\n", BLACK, get_current_time() - philo->shared->start, philo->id);
-	sem_post(philo->shared->print);
+	// sem_wait(philo->shared->print);
+	printing(philo, BLACK, SLEEPING, 0);
+	// printf("%s[%ld] philo %d is sleeping\n", BLACK, get_current_time() - philo->shared->start, philo->id);
+	// sem_post(philo->shared->print);
 	sem_post(philo->shared->forks);
 	sem_post(philo->shared->forks);
 	// test(philo);
@@ -111,9 +123,10 @@ void	thinking(t_philo *philo)
 		sem_post(philo->shared->forks);
 		exit(0);
 	}
-	sem_wait(philo->shared->print);
-	printf("%s[%ld] philo %d is thinking\n", YELLOW, get_current_time() - philo->shared->start, philo->id);	
-	sem_post(philo->shared->print);
+	// sem_wait(philo->shared->print);
+	printing(philo, YELLOW, THINKING, 0);
+	// printf("%s[%ld] philo %d is thinking\n", YELLOW, get_current_time() - philo->shared->start, philo->id);	
+	// sem_post(philo->shared->print);
 }
 
 void	routine(t_philo *philos)
@@ -127,18 +140,20 @@ void	routine(t_philo *philos)
 		if (philos->death)
 		{
 			sem_post(philos->shared->forks);	
-			sem_post(philos->shared->forks);	
+			sem_post(philos->shared->forks);
 			exit(0);
 		}
 		sem_wait(philos->shared->forks);
-		printf("%s[%ld] philo %d has taken a fork\n", WHITE, get_current_time() - philos->shared->start, philos->id);	
+		printing(philos, WHITE, FORK, 0);
 		sem_wait(philos->shared->forks);
-		printf("%s[%ld] philo %d has taken a fork\n", WHITE, get_current_time() - philos->shared->start, philos->id);	
+		printing(philos, WHITE, FORK, 0);
+		// printf("%s[%ld] philo %d has taken a fork\n", WHITE, get_current_time() - philos->shared->start, philos->id);	
+		// printf("%s[%ld] philo %d has taken a fork\n", WHITE, get_current_time() - philos->shared->start, philos->id);	
 		// test(philos);
 		if (philos->death)
 		{
 			sem_post(philos->shared->forks);	
-			sem_post(philos->shared->forks);	
+			sem_post(philos->shared->forks);
 			exit(0);
 		}
 		eating(philos);
