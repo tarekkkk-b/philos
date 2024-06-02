@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 01:38:25 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:40:20 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	create_processes(t_philo **philos, t_shared *shared)
 	while (++i < shared->philo_count)
 	{
 		x = fork();
-		if (x != 0)
+		if (x > 0)
 			philos[i]->philo = x;
 		else if (!x)
 			routine(philos[i]);
@@ -34,6 +34,7 @@ int	main(int ac, char **av)
 	t_philo		**philos;
 	int			s;
 	int			q = 0;
+	pid_t		tmp;
 
 	if (!check_args(ac, av))
 		return (-1);
@@ -44,15 +45,13 @@ int	main(int ac, char **av)
 	int i = -1;
 	while (++i < shared.philo_count)
 	{
-		waitpid(philos[i]->philo, &s, 0);
+		tmp = wait(&s);
 		if (WEXITSTATUS(s) == 4)
 		{
-			sem_post(shared.dead);
-			printf("\n\n\nthats a kill\n\n\n");
 			while (q < shared.philo_count)
 			{
-				if (philos[q]->philo != philos[i]->philo)
-					kill(philos[q]->philo, SIGTERM);
+				if (philos[q]->philo != tmp)
+					kill(philos[q]->philo, SIGQUIT);
 				q++;
 			}
 			break ;
@@ -64,7 +63,4 @@ int	main(int ac, char **av)
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_dead");
-	return (0);
 }
-
-//mosesawad

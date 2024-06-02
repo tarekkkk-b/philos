@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 01:21:29 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:16:48 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	sleeping(t_philo *philo)
 	test(philo);
 	printf("%s[%ld] philo %d is sleeping\n", BLACK, get_current_time() - philo->shared->start, philo->id);
 	sem_post(philo->shared->forks);
+	sem_post(philo->shared->forks);
 	sem_post(philo->shared->print);
 	test(philo);
 	ft_usleep(philo->shared->time_to_sleep, philo);
@@ -69,12 +70,14 @@ void	routine(t_philo *philos)
 		test(philos);
 		sem_wait(philos->shared->forks);
 		printf("%s[%ld] philo %d has taken a fork\n", WHITE, get_current_time() - philos->shared->start, philos->id);	
+		sem_wait(philos->shared->forks);
 		printf("%s[%ld] philo %d has taken a fork\n", WHITE, get_current_time() - philos->shared->start, philos->id);	
 		test(philos);
 		eating(philos);
 		if (philos->meals == philos->shared->meals_req)
 		{
-			sem_post(philos->shared->forks);		
+			sem_post(philos->shared->forks);	
+			sem_post(philos->shared->forks);	
 			exit (0);
 		}
 		test(philos);
