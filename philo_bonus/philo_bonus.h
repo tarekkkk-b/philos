@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 00:57:02 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/02 21:14:21 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <pthread.h>
 
 # define INP_ERR	"Usage: ./philo [philos] [time_to_die] [time_to_eat] \
 [time_to_sleep] **[meals_required]\n"
@@ -39,26 +40,26 @@
 
 typedef struct s_shared
 {
-	int		philo_count;
-	int		meals_req;
-	size_t	start;
-	size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	sem_t	*forks;
-	sem_t	*print;
-	sem_t	*dead;
+	int			philo_count;
+	int			meals_req;
+	size_t		start;
+	size_t		time_to_die;
+	size_t		time_to_eat;
+	size_t		time_to_sleep;
+	sem_t		*forks;
+	sem_t		*print;
+	sem_t		*dead;
 }	t_shared;
 
 typedef struct s_philo
 {
 	int			id;
-	int			rf;
-	int			lf;
+	int			death;
 	int			meals;
 	pid_t		philo;
 	size_t		last_meal;
 	t_shared	*shared;
+	pthread_t	monitor;
 }	t_philo;
 
 int		is_num(int ac, char **av);
@@ -70,7 +71,7 @@ void	routine(t_philo *philos);
 void	initializer(t_shared *shared, int ac, char **av);
 void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
-void	death(t_shared *shared, t_philo *philo);
+int		death(t_shared *shared, t_philo *philo);
 int		test(t_philo *philo);
 
 #endif

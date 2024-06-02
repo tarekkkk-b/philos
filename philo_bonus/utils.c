@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:15:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 01:09:17 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/02 21:40:08 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,14 @@ void	ft_usleep(size_t milliseconds, t_philo *philo)
 {
 	size_t	start;
 
-	(void)philo;
+	// (void)philo;
 	start = get_current_time();
 	while ((get_current_time() - start) < milliseconds)
 	{
 		death(philo->shared, philo);
-		test(philo);
+		if (philo->death)
+			exit(0);
+		// test(philo);
 		usleep(100);
 	}
 }

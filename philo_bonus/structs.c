@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 15:14:51 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:15:07 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	initializer(t_shared *shared, int ac, char **av)
 	sem_unlink("/sem_dead");
 	shared->forks = sem_open("/sem_forks", O_CREAT, 0644, shared->philo_count);
 	shared->print = sem_open("/sem_print", O_CREAT, 0644, 1);
-	shared->dead = sem_open("/sem_dead", O_CREAT, 0644, 1);
+	shared->dead = sem_open("/sem_dead", O_CREAT, 0644, 0);
 	if (ac == 6)
 		shared->meals_req = ft_atoi(av[5]);
 	else
@@ -43,8 +43,7 @@ void	philo_init(t_philo **philo, t_shared *shared)
 	{
 		philo[i] = malloc(sizeof(t_philo));
 		philo[i]->last_meal = 0;
-		philo[i]->lf = 0;
-		philo[i]->rf = 0;
+		philo[i]->death = 0;
 		philo[i]->meals = 0;
 		philo[i]->id = i + 1;
 		philo[i]->shared = shared;
