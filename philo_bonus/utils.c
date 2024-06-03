@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:15:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 15:08:29 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:32:24 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	common_use(t_philo *philo)
 {
 	if (philo->death)
 	{
-		sem_post(philo->shared->forks);	
 		sem_post(philo->shared->forks);
+		sem_post(philo->shared->forks);
+		sem_post(philo->shared->print);
 		exit(0);
 	}
 }

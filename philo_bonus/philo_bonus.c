@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 14:59:30 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:22:32 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*monitor(void *p)
 	philo = (t_philo *)p;
 	sem_wait(philo->shared->dead);
 	philo->death = 1;
-	exit(1);
-	// return (NULL);
+	// exit(1);
+	return (NULL);
 }
 
 void	create_processes(t_philo **philos, t_shared *shared)

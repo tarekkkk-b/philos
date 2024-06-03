@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 15:07:38 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:39:48 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,27 @@
 void	printing(t_philo *philo, char *clr, char *str, int flag)
 {
 	sem_wait(philo->shared->print);
-	if (!philo->death)
-		printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
+	if (!philo->death && !flag)
+	{
+		printf("--%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
+	}
 	else if (flag)
+	{
+		// common_use(philo);	
 		printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
+		sem_post(philo->shared->forks);
+		sem_post(philo->shared->forks);
+		sem_post(philo->shared->print);
+		exit(0);
+	}
 	sem_post(philo->shared->print);
-	death(philo->shared, philo);
 	common_use(philo);
+	death(philo->shared, philo);
 }
 
 void	death(t_shared *shared, t_philo *philo)
 {
+	common_use(philo);
 	if ((get_current_time() - shared->start) - philo->last_meal >= shared->time_to_die)
 	{
 		int i = 0;
@@ -84,6 +94,7 @@ void	routine(t_philo *philos)
 			sem_post(philos->shared->forks);	
 			exit (0);
 		}
+		// common_use(philo);
 		sleeping(philos);
 		thinking(philos);
 	}
