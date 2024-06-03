@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 18:15:07 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:10:57 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	initializer(t_shared *shared, int ac, char **av)
 	shared->time_to_die = ft_atoi(av[2]);
 	shared->time_to_eat = ft_atoi(av[3]);
 	shared->time_to_sleep = ft_atoi(av[4]);
+	shared->pids = malloc(sizeof(pid_t) * shared->philo_count);
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_dead");

@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/02 21:14:21 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:13:40 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_shared
 	sem_t		*forks;
 	sem_t		*print;
 	sem_t		*dead;
+	pid_t		*pids;
 }	t_shared;
 
 typedef struct s_philo
@@ -56,7 +57,6 @@ typedef struct s_philo
 	int			id;
 	int			death;
 	int			meals;
-	pid_t		philo;
 	size_t		last_meal;
 	t_shared	*shared;
 	pthread_t	monitor;
@@ -71,7 +71,7 @@ void	routine(t_philo *philos);
 void	initializer(t_shared *shared, int ac, char **av);
 void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
-int		death(t_shared *shared, t_philo *philo);
-int		test(t_philo *philo);
+void	death(t_shared *shared, t_philo *philo);
+void	common_use(t_philo *philo);
 
 #endif
