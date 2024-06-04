@@ -6,22 +6,11 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:15:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 18:04:44 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:16:38 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-void	common_use(t_philo *philo)
-{
-	if (philo->death)
-	{
-		// sem_post(philo->shared->forks);
-		// sem_post(philo->shared->forks);
-		sem_post(philo->shared->print);
-		exit(0);
-	}
-}
 
 int	ft_strlen(char *str)
 {
@@ -78,9 +67,5 @@ void	ft_usleep(size_t milliseconds, t_philo *philo)
 	(void)philo;
 	start = get_current_time();
 	while ((get_current_time() - start) < milliseconds)
-	{
-		// death(philo->shared, philo);
-		// common_use(philo);
 		usleep(100);
-	}
 }

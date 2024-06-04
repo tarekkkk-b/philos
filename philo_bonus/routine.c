@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 18:13:54 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:11:38 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,57 +15,32 @@
 void	printing(t_philo *philo, char *clr, char *str)
 {
 	sem_wait(philo->shared->print);
-	// common_use(philo);
-	// if (!philo->death && !flag)
-	printf("--%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
-	// else if (flag)
-	// {
-	// 	// common_use(philo);
-	// 	printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
-	// 	sem_post(philo->shared->forks);
-	// 	sem_post(philo->shared->forks);
-	// 	// sem_post(philo->shared->print);
-	// 	// exit(0);
-	// }
+	printf("--%s%lu %d %s\n", clr, get_current_time() - philo->shared->start,
+		philo->id, str);
 	sem_post(philo->shared->print);
-	// death(philo->shared, philo);
 }
-
-// void	death(t_shared *shared, t_philo *philo)
-// {
-// 	common_use(philo);
-// 	if ((get_current_time() - shared->start) - philo->last_meal >= shared->time_to_die)
-// 	{
-// 		int i = 0;
-// 		while (i < philo->shared->philo_count)
-// 		{
-// 			sem_post(philo->shared->dead);
-// 			i++;
-// 		}
-// 		// sem_post(philo->shared->forks);
-// 		// sem_post(philo->shared->forks);
-// 		printing(philo, RED, DEATH, 1);
-// 	}
-// }
 
 void	eating(t_philo *philo)
 {
-	// death(philo->shared, philo);
-	// common_use(philo);
 	sem_wait(philo->shared->forks);
 	printing(philo, WHITE, FORK);
 	sem_wait(philo->shared->forks);
 	printing(philo, WHITE, FORK);
-	philo->last_meal = get_current_time() - philo->shared->start;
+	philo->last_meal = (get_current_time() - philo->shared->start);
 	printing(philo, BLUE, EATING);
+	// printf("\n\n\n%lu\n\n\n", philo->last_meal);
 	ft_usleep(philo->shared->time_to_eat, philo);
 	philo->meals++;
+	if (philo->meals == philo->shared->meals_req)
+	{
+		sem_post(philo->shared->forks);	
+		sem_post(philo->shared->forks);	
+		exit (0);
+	}
 }
 
 void	sleeping(t_philo *philo)
 {
-	// death(philo->shared, philo);
-	// common_use(philo);
 	printing(philo, BLACK, SLEEPING);
 	sem_post(philo->shared->forks);
 	sem_post(philo->shared->forks);
@@ -74,26 +49,16 @@ void	sleeping(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
-	// death(philo->shared, philo);
-	// common_use(philo);
 	printing(philo, YELLOW, THINKING);
 }
 
 void	routine(t_philo *philos)
 {
-	while (!philos->death && philos->meals != philos->shared->meals_req)
+	while (1)
 	{
 		if (philos->id % 2 != 0 && philos->meals == 0)
 			ft_usleep(philos->shared->time_to_eat / 2 , philos);
 		eating(philos);
-		if (philos->meals == philos->shared->meals_req)
-		{
-			sem_post(philos->shared->forks);	
-			sem_post(philos->shared->forks);	
-			// sem_post(philos->shared->dead);
-			exit (0);
-		}
-		// common_use(philos);
 		sleeping(philos);
 		thinking(philos);
 	}
