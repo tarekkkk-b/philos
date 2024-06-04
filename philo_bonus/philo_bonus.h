@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 12:13:40 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:46:39 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_shared
 	sem_t		*forks;
 	sem_t		*print;
 	sem_t		*dead;
+	sem_t		*pause;
 	pid_t		*pids;
 }	t_shared;
 

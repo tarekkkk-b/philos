@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 15:39:48 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:53:18 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,19 @@
 void	printing(t_philo *philo, char *clr, char *str, int flag)
 {
 	sem_wait(philo->shared->print);
+	common_use(philo);
 	if (!philo->death && !flag)
-	{
 		printf("--%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
-	}
 	else if (flag)
 	{
-		// common_use(philo);	
+		common_use(philo);
 		printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
 		sem_post(philo->shared->forks);
 		sem_post(philo->shared->forks);
-		sem_post(philo->shared->print);
-		exit(0);
+		// sem_post(philo->shared->print);
+		// exit(0);
 	}
 	sem_post(philo->shared->print);
-	common_use(philo);
 	death(philo->shared, philo);
 }
 
@@ -44,8 +42,8 @@ void	death(t_shared *shared, t_philo *philo)
 			sem_post(philo->shared->dead);
 			i++;
 		}
-		sem_post(philo->shared->forks);
-		sem_post(philo->shared->forks);
+		// sem_post(philo->shared->forks);
+		// sem_post(philo->shared->forks);
 		printing(philo, RED, DEATH, 1);
 	}
 }
@@ -92,9 +90,10 @@ void	routine(t_philo *philos)
 		{
 			sem_post(philos->shared->forks);	
 			sem_post(philos->shared->forks);	
-			exit (0);
+			sem_post(philos->shared->dead);
+			// exit (0);
 		}
-		// common_use(philo);
+		// common_use(philos);
 		sleeping(philos);
 		thinking(philos);
 	}

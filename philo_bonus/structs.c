@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 12:10:57 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:47:08 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ void	initializer(t_shared *shared, int ac, char **av)
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_dead");
+	sem_unlink("/sem_pause");
 	shared->forks = sem_open("/sem_forks", O_CREAT, 0644, shared->philo_count);
 	shared->print = sem_open("/sem_print", O_CREAT, 0644, 1);
 	shared->dead = sem_open("/sem_dead", O_CREAT, 0644, 0);
+	shared->pause = sem_open("/sem_pause", O_CREAT, 0644, 0);
 	if (ac == 6)
 		shared->meals_req = ft_atoi(av[5]);
 	else

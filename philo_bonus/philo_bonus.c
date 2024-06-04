@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/03 15:22:32 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:55:20 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	*monitor(void *p)
 	philo = (t_philo *)p;
 	sem_wait(philo->shared->dead);
 	philo->death = 1;
+	sem_post(philo->shared->pause);
 	// exit(1);
 	return (NULL);
 }
@@ -40,6 +41,7 @@ void	create_processes(t_philo **philos, t_shared *shared)
 			routine(philos[i]);
 		}
 	}
+	sem_wait(shared->pause);
 }
 
 int	main(int ac, char **av)
@@ -55,7 +57,8 @@ int	main(int ac, char **av)
 	create_processes(philos, &shared);
 	int i = -1;
 	while (++i < shared.philo_count)
-		waitpid(shared.pids[i], 0, 0);
+		kill(shared.pids[i], SIGKILL);
+		// waitpid(shared.pids[i], 0, 0);
 	i = -1;
 	while (++i < shared.philo_count)
 		pthread_join(philos[i]->monitor, NULL);
