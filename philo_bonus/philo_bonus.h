@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 10:46:39 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:13:33 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	routine(t_philo *philos);
 void	initializer(t_shared *shared, int ac, char **av);
 void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
-void	death(t_shared *shared, t_philo *philo);
+// void	death(t_shared *shared, t_philo *philo);
 void	common_use(t_philo *philo);
+void	printing(t_philo *philo, char *clr, char *str);
 
 #endif

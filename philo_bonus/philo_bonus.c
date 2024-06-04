@@ -6,7 +6,7 @@
 /*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 10:55:20 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:19:48 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,21 @@ void	*monitor(void *p)
 	t_philo	*philo;
 
 	philo = (t_philo *)p;
-	sem_wait(philo->shared->dead);
-	philo->death = 1;
-	sem_post(philo->shared->pause);
+	// sem_wait(philo->shared->dead);
+	while (!philo->death)
+	{
+		if ((get_current_time() - philo->shared->start) - philo->last_meal >= philo->shared->time_to_die)
+		{
+			// printf("%s>>>>>%lu<<<<<\n", WHITE, (get_current_time() - philo->shared->start) - philo->last_meal);
+			printing(philo, RED, DEATH);
+			sem_wait(philo->shared->print);
+			// sem_wait(philo->shared->print);
+			sem_post(philo->shared->pause);
+			philo->death = 1;
+			break ;
+		}
+		// usleep(100);
+	}
 	// exit(1);
 	return (NULL);
 }
