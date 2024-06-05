@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 19:08:43 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:22:19 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,6 @@ void	routine(t_philo *philos);
 void	initializer(t_shared *shared, int ac, char **av);
 void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
-void	printing(t_philo *philo, char *clr, char *str);
+void	printing(t_philo *philo, char *clr, char *str, int flag);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 20:11:43 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/05 13:21:38 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void	*monitor(void *p)
 	{
 		if ((get_current_time() - philo->shared->start) - philo->last_meal >= philo->shared->time_to_die)
 		{
-			// printf(">>>%lu<<<\n", (get_current_time() - philo->shared->start) - philo->last_meal);
-			printing(philo, RED, DEATH);
+			printing(philo, RED, DEATH, 1);
 			sem_post(philo->shared->pause);
-			sem_wait(philo->shared->print);
+			// sem_wait(philo->shared->print);
 			break ;
 		}
 	}
