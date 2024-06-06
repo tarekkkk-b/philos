@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/05 13:22:19 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/06 17:20:48 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ typedef struct s_shared
 	size_t		time_to_eat;
 	size_t		time_to_sleep;
 	sem_t		*forks;
+	sem_t		*check;
 	sem_t		*print;
 	sem_t		*dead;
 	sem_t		*pause;
 	pid_t		*pids;
+	pthread_t	meal_checking;
 }	t_shared;
 
 typedef struct s_philo
