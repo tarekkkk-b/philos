@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 11:23:57 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:35:23 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	printing(t_philo *philo, char *clr, char *str, int flag)
 
 void	eating(t_philo *philo)
 {
+	sem_wait(philo->shared->lock);
 	sem_wait(philo->shared->forks);
 	printing(philo, WHITE, FORK, 0);
 	sem_wait(philo->shared->forks);
@@ -34,6 +35,7 @@ void	eating(t_philo *philo)
 	philo->meals++;
 	if (philo->meals == philo->shared->meals_req)
 		sem_post(philo->shared->check);
+	sem_post(philo->shared->lock);
 }
 
 void	sleeping(t_philo *philo)

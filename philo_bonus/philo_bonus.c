@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 11:49:47 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:29:55 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	close_semaphores(t_shared *shared)
+{
+	sem_close(shared->forks);
+	sem_close(shared->print);
+	sem_close(shared->dead);
+	sem_close(shared->pause);
+	sem_close(shared->lock);
+	sem_close(shared->check);
+}
 
 void	*monitor(void *p)
 {
@@ -25,8 +35,11 @@ void	*monitor(void *p)
 		{
 			printing(philo, RED, DEATH, 1);
 			i = -1;
-			while (++i < philo->shared->philo_count)
+			while (++i < (philo->shared->philo_count))
+			{
 				sem_post(philo->shared->pause);
+				sem_post(philo->shared->check);
+			}
 			sem_post(philo->shared->lock);
 			break ;
 		}
@@ -55,6 +68,9 @@ void	create_processes(t_philo **philos, t_shared *shared)
 	int	i;
 
 	i = -1;
+	if (shared->meals_req != -1)
+		pthread_create(&shared->meal_checking, NULL,
+			meal_checker, (void *)shared);
 	while (++i < shared->philo_count)
 	{
 		shared->pids[i] = fork();
@@ -66,13 +82,9 @@ void	create_processes(t_philo **philos, t_shared *shared)
 				monitor, (void *)philos[i]);
 			routine(philos[i]);
 			pthread_join(philos[i]->monitor, NULL);
-			// if (shared->meals_req != -1)
-			// 	pthread_join(shared->meal_checking, NULL);
+			close_semaphores(shared);
 		}
 	}
-	if (shared->meals_req != -1)
-		pthread_create(&shared->meal_checking, NULL,
-			meal_checker, (void *)shared);
 	sem_wait(shared->pause);
 }
 
@@ -89,17 +101,15 @@ int	main(int ac, char **av)
 	create_processes(philos, &shared);
 	int i = -1;
 	while (++i < shared.philo_count)
+	{
+		free(philos[i]);
 		kill(shared.pids[i], SIGKILL);
-	i = -1;
-	while (++i < shared.philo_count)
-		pthread_join(philos[i]->monitor, NULL);
-	sem_close(shared.forks);
-	sem_close(shared.print);
-	sem_close(shared.dead);
-	sem_close(shared.pause);
-	sem_close(shared.lock);
-	if (sem_post(shared.check))
-		sem_close(shared.check);
+	}
+	if (shared.meals_req != -1)
+		pthread_join(shared.meal_checking, NULL);
+	free(philos);
+	free (shared.pids);
+	close_semaphores(&shared);
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_pause");
 	sem_unlink("/sem_print");

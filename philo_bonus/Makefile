@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+         #
+#    By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/30 14:14:40 by tabadawi          #+#    #+#              #
-#    Updated: 2024/06/07 00:03:43 by tarekkkk         ###   ########.fr        #
+#    Updated: 2024/06/07 18:17:22 by tabadawi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = philo_bonus.c utils.c parsing.c structs.c routine.c
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=address -g3
+CFLAGS =  -pthread -Wall -Wextra -Werror #-fsanitize=thread -g3
 
 OBJS = $(SRCS:.c=.o)
 

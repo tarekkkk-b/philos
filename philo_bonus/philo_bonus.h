@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 11:38:55 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:14:38 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ void	initializer(t_shared *shared, int ac, char **av);
 void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
 void	printing(t_philo *philo, char *clr, char *str, int flag);
+void	close_semaphores(t_shared *shared);
 
 #endif

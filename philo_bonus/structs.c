@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 11:40:25 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:31:45 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	initializer(t_shared *shared, int ac, char **av)
 {
-	int	i;
-
-	i = -1;
 	shared->philo_count = ft_atoi(av[1]);
 	shared->time_to_die = ft_atoi(av[2]);
 	shared->time_to_eat = ft_atoi(av[3]);
@@ -32,10 +29,12 @@ void	initializer(t_shared *shared, int ac, char **av)
 	shared->print = sem_open("/sem_print", O_CREAT, 0644, 1);
 	shared->dead = sem_open("/sem_dead", O_CREAT, 0644, 0);
 	shared->pause = sem_open("/sem_pause", O_CREAT, 0644, 0);
-	shared->check = sem_open("/sem_check", O_CREAT, 0644, 0);
 	shared->lock = sem_open("/sem_lock", O_CREAT, 0644, 1);
 	if (ac == 6)
+	{
+		shared->check = sem_open("/sem_check", O_CREAT, 0644, 0);
 		shared->meals_req = ft_atoi(av[5]);
+	}
 	else
 		shared->meals_req = -1;
 	shared->start = get_current_time();
