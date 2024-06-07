@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/06 17:30:21 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:23:57 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	printing(t_philo *philo, char *clr, char *str, int flag)
 void	eating(t_philo *philo)
 {
 	sem_wait(philo->shared->forks);
-		printing(philo, WHITE, FORK, 0);
+	printing(philo, WHITE, FORK, 0);
 	sem_wait(philo->shared->forks);
-		printing(philo, WHITE, FORK, 0);
+	printing(philo, WHITE, FORK, 0);
 	philo->last_meal = (get_current_time() - philo->shared->start);
-		printing(philo, BLUE, EATING, 0);
+	printing(philo, BLUE, EATING, 0);
 	ft_usleep(philo->shared->time_to_eat, philo);
 	philo->meals++;
 	if (philo->meals == philo->shared->meals_req)
@@ -38,7 +38,7 @@ void	eating(t_philo *philo)
 
 void	sleeping(t_philo *philo)
 {
-		printing(philo, BLACK, SLEEPING, 0);
+	printing(philo, BLACK, SLEEPING, 0);
 	sem_post(philo->shared->forks);
 	sem_post(philo->shared->forks);
 	ft_usleep(philo->shared->time_to_sleep, philo);
@@ -46,7 +46,7 @@ void	sleeping(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
-		printing(philo, YELLOW, THINKING, 0);
+	printing(philo, YELLOW, THINKING, 0);
 }
 
 void	routine(t_philo *philos)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
+/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/06 17:20:48 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:38:55 by tarekkkk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_shared
 	sem_t		*print;
 	sem_t		*dead;
 	sem_t		*pause;
+	sem_t		*lock;
 	pid_t		*pids;
 	pthread_t	meal_checking;
 }	t_shared;
