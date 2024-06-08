@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:14:17 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/25 15:15:46 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:27:25 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,14 @@ int	check_args(int ac, char **av)
 		return ((void)write(1, INP_ERR, ft_strlen(INP_ERR)), FALSE);
 	if (ft_atoi(av[1]) < 1 || ft_atoi(av[1]) > 200)
 		return ((void)write(1, COUNT, ft_strlen(COUNT)), FALSE);
+	if (ft_atoi(av[2]) < 1 || ft_atoi(av[2]) > INT_MAX)
+		return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
+	if (ft_atoi(av[3]) < 1 || ft_atoi(av[3]) > INT_MAX)
+		return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
+	if (ft_atoi(av[4]) < 1 || ft_atoi(av[4]) > INT_MAX)
+		return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
+	if (ac == 6)
+		if (ft_atoi(av[5]) < 1 || ft_atoi(av[5]) > INT_MAX)
+			return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
 	return (TRUE);
 }

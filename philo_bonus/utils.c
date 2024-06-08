@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:15:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/04 19:16:38 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:21:48 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,21 @@ void	ft_usleep(size_t milliseconds, t_philo *philo)
 	start = get_current_time();
 	while ((get_current_time() - start) < milliseconds)
 		usleep(100);
+}
+
+void	close_semaphores(t_shared *shared)
+{
+	sem_close(shared->forks);
+	sem_close(shared->print);
+	sem_close(shared->dead);
+	sem_close(shared->pause);
+	sem_close(shared->lock);
+	if (shared->meals_req != -1)
+		sem_close(shared->check);
+	sem_unlink("/sem_forks");
+	sem_unlink("/sem_pause");
+	sem_unlink("/sem_print");
+	sem_unlink("/sem_dead");
+	sem_unlink("/sem_check");
+	sem_unlink("/sem_lock");
 }

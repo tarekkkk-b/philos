@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 13:57:20 by tarekkkk          #+#    #+#             */
-/*   Updated: 2024/05/30 16:46:54 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:27:01 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <limits.h>
 
 # define INP_ERR	"Usage: ./philo [philos] [time_to_die] [time_to_eat] \
 [time_to_sleep] **[meals_required]\n"
 # define COUNT		"please use a philospher count in the range of 1 - 200.\n"
+# define NUMBER		"please use a number in the range of 1 - 2147483647.\n"
 # define DEATH		"died"
 # define EATING		"is eating"
 # define SLEEPING	"is sleeping"

@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:14:55 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 20:14:38 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:25:39 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <pthread.h>
+# include <limits.h>
 
 # define INP_ERR	"Usage: ./philo [philos] [time_to_die] [time_to_eat] \
 [time_to_sleep] **[meals_required]\n"
 # define COUNT		"please use a philospher count in the range of 1 - 200.\n"
+# define NUMBER		"please use a number in the range of 1 - 2147483647.\n"
 # define DEATH		"died"
 # define EATING		"is eating"
 # define SLEEPING	"is sleeping"
@@ -52,6 +54,7 @@ typedef struct s_shared
 	sem_t		*dead;
 	sem_t		*pause;
 	sem_t		*lock;
+	sem_t		*sem_meals;
 	pid_t		*pids;
 	pthread_t	meal_checking;
 }	t_shared;
@@ -76,6 +79,7 @@ void	initializer(t_shared *shared, int ac, char **av);
 void	philo_init(t_philo **philo, t_shared *shared);
 size_t	get_current_time(void);
 void	printing(t_philo *philo, char *clr, char *str, int flag);
+void	close_semaphores(t_shared *shared);
 void	close_semaphores(t_shared *shared);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 20:35:23 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:15:06 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void	printing(t_philo *philo, char *clr, char *str, int flag)
 {
-	if (philo->shared->meals_req != -1 && (philo->meals >= philo->shared->meals_req))
+	if (philo->shared->meals_req != -1
+		&& (philo->meals >= philo->shared->meals_req))
 		return ;
 	sem_wait(philo->shared->print);
-	printf("%s%lu %d %s\n", clr, get_current_time() - philo->shared->start, philo->id, str);
+	printf("%s%lu %d %s\n", clr, get_current_time()
+		- philo->shared->start, philo->id, str);
 	if (!flag)
 		sem_post(philo->shared->print);
 }
@@ -56,7 +58,7 @@ void	routine(t_philo *philos)
 	while (1)
 	{
 		if (philos->id % 2 != 0 && philos->meals == 0)
-			ft_usleep(philos->shared->time_to_eat / 2 , philos);
+			ft_usleep(philos->shared->time_to_eat / 2, philos);
 		eating(philos);
 		sleeping(philos);
 		thinking(philos);

@@ -6,39 +6,31 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/07 20:29:55 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:22:17 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	close_semaphores(t_shared *shared)
-{
-	sem_close(shared->forks);
-	sem_close(shared->print);
-	sem_close(shared->dead);
-	sem_close(shared->pause);
-	sem_close(shared->lock);
-	sem_close(shared->check);
-}
-
 void	*monitor(void *p)
 {
 	t_philo	*philo;
-	int	i;
+	int		i;
 
 	philo = (t_philo *)p;
 	while (1)
 	{
 		sem_wait(philo->shared->lock);
-		if ((get_current_time() - philo->shared->start) - philo->last_meal >= philo->shared->time_to_die)
+		if ((get_current_time() - philo->shared->start) - philo->last_meal
+			>= philo->shared->time_to_die)
 		{
 			printing(philo, RED, DEATH, 1);
 			i = -1;
 			while (++i < (philo->shared->philo_count))
 			{
 				sem_post(philo->shared->pause);
-				sem_post(philo->shared->check);
+				if (philo->shared->meals_req != -1)
+					sem_post(philo->shared->check);
 			}
 			sem_post(philo->shared->lock);
 			break ;
@@ -88,6 +80,23 @@ void	create_processes(t_philo **philos, t_shared *shared)
 	sem_wait(shared->pause);
 }
 
+void	ending(t_shared *shared, t_philo **philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < shared->philo_count)
+	{
+		free(philo[i]);
+		kill(shared->pids[i], SIGKILL);
+	}
+	if (shared->meals_req != -1)
+		pthread_join(shared->meal_checking, NULL);
+	free(philo);
+	free (shared->pids);
+	close_semaphores(&shared);
+}
+
 int	main(int ac, char **av)
 {
 	t_shared	shared;
@@ -99,22 +108,5 @@ int	main(int ac, char **av)
 	philos = malloc(sizeof(t_philo *) * shared.philo_count);
 	philo_init(philos, &shared);
 	create_processes(philos, &shared);
-	int i = -1;
-	while (++i < shared.philo_count)
-	{
-		free(philos[i]);
-		kill(shared.pids[i], SIGKILL);
-	}
-	if (shared.meals_req != -1)
-		pthread_join(shared.meal_checking, NULL);
-	free(philos);
-	free (shared.pids);
-	close_semaphores(&shared);
-	sem_unlink("/sem_forks");
-	sem_unlink("/sem_pause");
-	sem_unlink("/sem_print");
-	sem_unlink("/sem_dead");
-	sem_unlink("/sem_check");
-	sem_unlink("/sem_lock");
-	return (0);
+	ending(&shared, philos);
 }

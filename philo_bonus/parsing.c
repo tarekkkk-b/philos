@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tarekkkk <tarekkkk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:10:34 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/05/31 22:22:44 by tarekkkk         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:26:02 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,14 @@ int	check_args(int ac, char **av)
 		return ((void)write(1, INP_ERR, ft_strlen(INP_ERR)), FALSE);
 	if (ft_atoi(av[1]) < 1 || ft_atoi(av[1]) > 200)
 		return ((void)write(1, COUNT, ft_strlen(COUNT)), FALSE);
+	if (ft_atoi(av[2]) < 1 || ft_atoi(av[2]) > INT_MAX)
+		return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
+	if (ft_atoi(av[3]) < 1 || ft_atoi(av[3]) > INT_MAX)
+		return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
+	if (ft_atoi(av[4]) < 1 || ft_atoi(av[4]) > INT_MAX)
+		return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
+	if (ac == 6)
+		if (ft_atoi(av[5]) < 1 || ft_atoi(av[5]) > INT_MAX)
+			return ((void)write(1, NUMBER, ft_strlen(NUMBER)), FALSE);
 	return (TRUE);
 }
