@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:38 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/08 15:22:17 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:40:10 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	ending(t_shared *shared, t_philo **philo)
 		pthread_join(shared->meal_checking, NULL);
 	free(philo);
 	free (shared->pids);
-	close_semaphores(&shared);
+	close_semaphores(shared);
 }
 
 int	main(int ac, char **av)

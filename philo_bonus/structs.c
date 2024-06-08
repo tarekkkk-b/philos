@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:31 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/08 15:18:10 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:57:00 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@ void	semaphores(t_shared *shared)
 	sem_unlink("/sem_pause");
 	sem_unlink("/sem_check");
 	sem_unlink("/sem_lock");
+	shared->forks = sem_open("/sem_forks", O_CREAT, 0644, 0);
 	while (++i < shared->philo_count)
 		sem_post(shared->forks);
-	shared->forks = sem_open("/sem_forks", O_CREAT, 0644, 0);
 	shared->print = sem_open("/sem_print", O_CREAT, 0644, 1);
 	shared->dead = sem_open("/sem_dead", O_CREAT, 0644, 0);
 	shared->pause = sem_open("/sem_pause", O_CREAT, 0644, 0);
 	shared->lock = sem_open("/sem_lock", O_CREAT, 0644, 1);
 	if (shared->meals_req != -1)
-		shared->check = sem_open("/sem_check", O_CREAT, 0644, 0);
+	{
+		shared->check = sem_open("/sem_check", O_CREAT, 0644, 1);
+		sem_wait(shared->check);
+	}
 }
 
 void	initializer(t_shared *shared, int ac, char **av)

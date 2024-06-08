@@ -6,7 +6,7 @@
 /*   By: tabadawi <tabadawi@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 14:16:08 by tabadawi          #+#    #+#             */
-/*   Updated: 2024/06/08 15:15:06 by tabadawi         ###   ########.fr       */
+/*   Updated: 2024/06/08 15:53:04 by tabadawi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ void	printing(t_philo *philo, char *clr, char *str, int flag)
 
 void	eating(t_philo *philo)
 {
+	sem_wait(philo->shared->forks);
+	printing(philo, WHITE, FORK, 0);
+	sem_wait(philo->shared->forks);
+	printing(philo, WHITE, FORK, 0);
 	sem_wait(philo->shared->lock);
-	sem_wait(philo->shared->forks);
-	printing(philo, WHITE, FORK, 0);
-	sem_wait(philo->shared->forks);
-	printing(philo, WHITE, FORK, 0);
 	philo->last_meal = (get_current_time() - philo->shared->start);
 	printing(philo, BLUE, EATING, 0);
+	sem_post(philo->shared->lock);
 	ft_usleep(philo->shared->time_to_eat, philo);
 	philo->meals++;
 	if (philo->meals == philo->shared->meals_req)
 		sem_post(philo->shared->check);
-	sem_post(philo->shared->lock);
 }
 
 void	sleeping(t_philo *philo)
